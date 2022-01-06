@@ -5,7 +5,7 @@
 #define CITY_ID "5128581" //New York City https://openweathermap.org/current#cityid
 #define OPENWEATHERMAP_APIKEY "none" //use your own API key :)
 #define OPENWEATHERMAP_URL "http://api.openweathermap.org/data/2.5/weather?id=" //open weather api
-#define TEMP_UNIT "imperial" //metric = Celsius , imperial = Fahrenheit
+#define TEMP_UNIT "metric" //metric = Celsius , imperial = Fahrenheit
 #define TEMP_LANG "en"
 #define WEATHER_UPDATE_INTERVAL 99 //must be greater than 5, measured in minutes
 //NTP Settings
