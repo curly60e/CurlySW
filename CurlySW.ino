@@ -1,8 +1,8 @@
 /*
-CurlySmartWatchy
-https://github.com/curly60e/CurlySmartWatch
+CurlySW
+https://github.com/curly60e/CurlySW
 
-Based on SmartWatchy
+SmartWatchy
 https://github.com/theRealc2c2/SmartWatch
 
 Based on Bahn-for-Watchy
@@ -22,13 +22,30 @@ https://watchy.sqfmi.com
 class WatchFace : public Watchy { //inherit and extend Watchy class
   using Watchy::Watchy;
   public:
+
+
+    bool VibeMode = false;
+    //(function below toggles the motor on or off)
+    void VibeTo(bool Mode){
+        if (Mode != VibeMode){
+            if (Mode){
+                sensor.enableFeature(BMA423_WAKEUP, false);
+                pinMode(VIB_MOTOR_PIN, OUTPUT);
+                digitalWrite(VIB_MOTOR_PIN, true);
+            }else{
+                digitalWrite(VIB_MOTOR_PIN, false);
+                sensor.enableFeature(BMA423_WAKEUP, true);
+            }
+            VibeMode = Mode;
+        }
+    }
+    
     void drawWatchFace() { //override this method to customize how the watch face looks
       
       int16_t  x1, y1, lasty;
       uint16_t w, h;
       String textstring;
       bool light = true; // left this here if someone wanted to tweak for dark
-
       //resets step counter at midnight everyday
       if(currentTime.Hour == 00 && currentTime.Minute == 00) {
         sensor.resetStepCounter();
@@ -61,6 +78,11 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
       display.setCursor(183-w, 100+3+h);
       display.print(textstring);
+      if (textstring == "00") {
+        VibeTo(true);
+        delay(120);
+        VibeTo(false);
+      }
 
       // draw battery
       display.fillRoundRect(16,16,34,12,4,light ? GxEPD_BLACK : GxEPD_WHITE);
@@ -164,4 +186,8 @@ WatchFace m(settings); //instantiate your watchface
 
 void setup() {
   m.init(); //call init in setup
+}
+
+void loop() {
+  // this should never run, Watchy deep sleeps after init();
 }
