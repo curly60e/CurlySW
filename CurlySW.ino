@@ -17,7 +17,6 @@ https://watchy.sqfmi.com
 #include "Teko_Regular50pt7b.h"
 #include "icons.h"
 #include "settings.h"
-#include <NTPClient.h>
 
 class WatchFace : public Watchy { //inherit and extend Watchy class
   using Watchy::Watchy;
@@ -50,7 +49,33 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       if(currentTime.Hour == 00 && currentTime.Minute == 00) {
         sensor.resetStepCounter();
       }
-
+      
+      //pinMode(MENU_BTN_PIN, INPUT);
+      pinMode(BACK_BTN_PIN, INPUT);
+      //pinMode(UP_BTN_PIN, INPUT);
+      //pinMode(DOWN_BTN_PIN, INPUT);
+   
+      //if (digitalRead(MENU_BTN_PIN) == 1) {
+      //  VibeTo(true);
+      //  delay(100);
+      //  VibeTo(false);
+      //} 
+      if (digitalRead(BACK_BTN_PIN) == 1) {
+        VibeTo(true);
+        delay(50);
+        VibeTo(false);
+      } 
+      //if (digitalRead(UP_BTN_PIN) == 1) {
+      //  VibeTo(true);
+      //  delay(100);
+      //  VibeTo(false);
+      //} 
+      //if (digitalRead(DOWN_BTN_PIN) == 1) {
+      //  VibeTo(true);
+      //  delay(100);
+      //  VibeTo(false);
+      //}
+        
       // ** DRAW **
 
       //drawbg
