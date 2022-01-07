@@ -80,7 +80,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.print(textstring);
       if (textstring == "00") {
         VibeTo(true);
-        delay(120);
+        delay(100);
         VibeTo(false);
       }
 
