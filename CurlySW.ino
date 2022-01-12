@@ -13,9 +13,7 @@ https://watchy.sqfmi.com
 */
 
 #include <Watchy.h> //include the Watchy library
-#include "Teko_Regular12pt7b.h"
-#include "Teko_Regular50pt7b.h"
-#include "icons.h"
+#include "resource.h"
 #include "settings.h"
 
 class WatchFace : public Watchy { //inherit and extend Watchy class
@@ -83,14 +81,19 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.fillRoundRect(2,2,196,196,8,light ? GxEPD_BLACK : GxEPD_WHITE);
       display.fillRoundRect(6,6,188,188,5,light ? GxEPD_WHITE : GxEPD_BLACK);
       
-      display.setFont(&Teko_Regular50pt7b);
+      display.setFont(&PebblecoNumbers_MONO32pt7b);
       display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
       display.setTextWrap(false);
 
       //draw hours
       textstring = currentTime.Hour;
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(183-w, 100-5);
+      display.setCursor(15, 88);
+      display.print(textstring);
+
+      textstring = ":";
+      display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
+      display.setCursor(93, 84);
       display.print(textstring);
       
       //draw minutes
@@ -101,7 +104,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       }
       textstring += currentTime.Minute;
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(183-w, 100+3+h);
+      display.setCursor(108, 88);
       display.print(textstring);
       if (textstring == "00") {
         VibeTo(true);
@@ -166,42 +169,48 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.setFont(&Teko_Regular12pt7b);
       display.getTextBounds(String(temperature), 0, 0, &x1, &y1, &w, &h);
       if(159 - w - x1 > 87){
-          display.setCursor(25, 90);
+          display.setCursor(140, 175);
           //lasty += -70;
       }else{
           display.setFont(&Teko_Regular12pt7b);
           display.getTextBounds(String(temperature), 0, 0, &x1, &y1, &w, &h);
-          display.setCursor(25, 90);
+          display.setCursor(140, 175);
           //lasty += -70;
       }
       textstring = "C";
       display.println(temperature);
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(43, 90);
+      display.setCursor(158, 175);
       display.print(textstring);
-      //display.drawBitmap(40, 60, currentWeather.isMetric ? celsius : fahrenheit, 26, 20, light ? GxEPD_BLACK : GxEPD_WHITE);
+      
+      light = (currentTime.Hour >= 18 || currentTime.Hour <= 5) ? true : false;
       const unsigned char* weatherIcon;
   
       //https://openweathermap.org/weather-conditions
-      if(weatherConditionCode > 801){//Cloudy
-      weatherIcon = cloudy;
-      }else if(weatherConditionCode == 801){//Few Clouds
-      weatherIcon = cloudsun;
-      }else if(weatherConditionCode == 800){//Clear
-      weatherIcon = sunny;
-      }else if(weatherConditionCode >=700){//Atmosphere
-      weatherIcon = atmosphere;
-      }else if(weatherConditionCode >=600){//Snow
-      weatherIcon = snow;
-      }else if(weatherConditionCode >=500){//Rain
-      weatherIcon = rain;
-      }else if(weatherConditionCode >=300){//Drizzle
-      weatherIcon = drizzle;
-      }else if(weatherConditionCode >=200){//Thunderstorm
-      weatherIcon = thunderstorm;
-      }else
-      return;
-      display.drawBitmap(16, 40, weatherIcon, WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT, light ? GxEPD_BLACK : GxEPD_WHITE);
+      if (weatherConditionCode == 999) { //RTC
+        weatherIcon = rtc;
+      } else if (weatherConditionCode == 998) { //RTC SLEEEP
+        weatherIcon = rtcsleep;
+      } else if (weatherConditionCode > 801 && weatherConditionCode < 805) { //Cloudy
+        weatherIcon = scatteredclouds;
+      } else if (weatherConditionCode == 801) { //Few Clouds
+        weatherIcon = (light) ? fewcloudsnight : fewclouds;
+      } else if (weatherConditionCode == 800) { //Clear
+        weatherIcon = (light) ? clearskynight : clearsky;
+      } else if (weatherConditionCode >= 700) { //Atmosphere
+        weatherIcon = mist;
+      } else if (weatherConditionCode >= 600) { //Snow
+        weatherIcon = snow;
+      } else if (weatherConditionCode >= 500) { //Rain
+        weatherIcon = rain;
+      } else if (weatherConditionCode >= 300) { //Drizzle
+        weatherIcon = drizzle;
+      } else if (weatherConditionCode >= 200) { //Thunderstorm
+        weatherIcon = thunderstorm;
+      }
+    
+      display.fillRect(141, 91, 49, 44, GxEPD_WHITE); //Redraw Helper
+      display.drawBitmap(130, 115, weatherIcon, 45, 40,GxEPD_BLACK);
     }
 
 };
