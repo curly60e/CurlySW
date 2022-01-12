@@ -10,7 +10,7 @@ Bin folder contains the current bin that you can use esptool (.py or .exe) to in
 
 For those **WANTING** to use this Watchy code without programming and having to install Arduino or PlatformIO, you *CAN* install it with the base Watchy face you received when you got your Watchy.
 
-1. Download the Bin folder's file `GSR.ino.esp32.bin` onto the machine that you can connect your Watchy to by WiFi (laptop, cellphone, tablet, etc).
+1. Download the Bin folder's file `CurlySW.ino.esp32.bin` onto the machine that you can connect your Watchy to by WiFi (laptop, cellphone, tablet, etc).
 2. Once downloaded, for speed, turn the WiFi off on the device you're going to use with the Watchy, but keep the WiFi settings open.
 3. Go into the Watchy's menu, push up (so it goes up to the bottom) until you stop on Setup WiFi.  Press Menu to continue.
 4. Turn your device's WiFi back on and find the `"Watchy AP"` connection on your device and connect to it.
