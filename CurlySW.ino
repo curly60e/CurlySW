@@ -100,7 +100,13 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.print(textstring);
       
       //vibrate per o'clock
-      textstringMinute = currentTime.Minute;
+      if (currentTime.Minute < 10) {
+        textstringMinute = "0";
+      } else {
+        textstringMinute = "";
+      }
+      textstringMinute += currentTime.Minute;
+      display.getTextBounds(textstringMinute, 0, 0, &x1, &y1, &w, &h);
       if (textstringMinute == "00") {
         VibeTo(true);
         delay(100);
