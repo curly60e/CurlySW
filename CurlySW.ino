@@ -42,6 +42,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       int16_t  x1, y1, lasty;
       uint16_t w, h;
       String textstring;
+      String textstringMinute;
       bool light = true; // left this here if someone wanted to tweak for dark
       //resets step counter at midnight everyday
       if(currentTime.Hour == 00 && currentTime.Minute == 00) {
@@ -85,28 +86,22 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
       display.setTextWrap(false);
 
-      //draw hours
+      //draw time
       textstring = currentTime.Hour;
-      display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(15, 88);
-      display.print(textstring);
-
-      textstring = ":";
-      display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(93, 84);
-      display.print(textstring);
-      
-      //draw minutes
+      textstring += ":";
       if (currentTime.Minute < 10) {
-        textstring = "0";
+        textstring += "0";
       } else {
-        textstring = "";
+        textstring += "";
       }
       textstring += currentTime.Minute;
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(108, 88);
+      display.setCursor(50,88);
       display.print(textstring);
-      if (textstring == "00") {
+      
+      //vibrate per o'clock
+      textstringMinute = currentTime.Minute;
+      if (textstringMinute == "00") {
         VibeTo(true);
         delay(100);
         VibeTo(false);
