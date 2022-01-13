@@ -96,7 +96,7 @@ class WatchFace : public Watchy { //inherit and extend Watchy class
       }
       textstring += currentTime.Minute;
       display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-      display.setCursor(97-w/2,88);
+      display.setCursor(96-w/2,88);
       display.print(textstring);
       
       //vibrate per o'clock
